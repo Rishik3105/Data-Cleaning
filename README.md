@@ -1,18 +1,18 @@
-# 🌍✨ Data Cleaning 🚀🌟
+# 🌍✨ Data Cleaning 🚀🌟🎉
 
-This script demonstrates a systematic approach to remove duplicate rows from a table named `country`. The process involves creating staging tables, identifying duplicates, and retaining only unique rows. Below is a detailed explanation of the workflow with some 💡 **best practices** 💡.
+This script demonstrates a systematic approach to remove duplicate rows from a table named `country`. The process involves creating staging tables, identifying duplicates, and retaining only unique rows. Let’s dive into this exciting journey! 🌈📊✨
 
 ---
 
-## 🏗️ **Creating a Staging Table** 🛠️✨
-- A new table `country_staging` is created with the exact structure of the `country` table. 🎯  
+## 🏗️ **Creating a Staging Table** 🛠️🎯✨
+- A new table `country_staging` is created with the exact structure of the `country` table. 🎨🗂️
   ```sql
   CREATE TABLE country_staging 
   LIKE country;
   ```
 
-## 📥 **Copying Data into Staging** 📋🔄
-- All rows from the `country` table are copied into the `country_staging` table. 📝  
+## 📥 **Copying Data into Staging** 📋🔄✨
+- All rows from the `country` table are copied into the `country_staging` table. 🚛📦🎉
   ```sql
   INSERT country_staging
   SELECT * 
@@ -21,10 +21,10 @@ This script demonstrates a systematic approach to remove duplicate rows from a t
 
 ---
 
-## 🔍 **Identifying Duplicates** 🕵️‍♂️✨
+## 🔍 **Identifying Duplicates** 🕵️‍♂️🔎✨
 ### 💡 Using `ROW_NUMBER()`:
-- **`ROW_NUMBER()`** is applied with `PARTITION BY` to assign a unique number to each row based on duplicate fields. 🧠  
-- If `row_num > 1`, it indicates a duplicate record. ⚠️
+- 🌟 **`ROW_NUMBER()`** is applied with `PARTITION BY` to assign a unique number to each row based on duplicate fields. 🧠💾
+- If `row_num > 1`, it indicates a duplicate record. ⚠️⚡
   ```sql
   SELECT *,
   ROW_NUMBER() OVER (
@@ -35,7 +35,7 @@ This script demonstrates a systematic approach to remove duplicate rows from a t
   FROM country_staging;
   ```
 
-### ✅ **Best Practice**: Use CTEs for clarity and maintainability. 🔗✨
+### ✅ **Best Practice**: Use CTEs for clarity and maintainability. 🔗✨🛡️
   ```sql
   WITH duplicate_cte AS (
     SELECT *,
@@ -53,8 +53,8 @@ This script demonstrates a systematic approach to remove duplicate rows from a t
 
 ---
 
-## 🛠️ **Creating a New Table to Handle Duplicates** 🗂️✨
-- A new table, `country_staging2`, is created to include an additional `row_num` column. 🌟  
+## 🛠️ **Creating a New Table to Handle Duplicates** 🗂️✨🛡️
+- A new table, `country_staging2`, is created to include an additional `row_num` column. 🌟🎉🛠️
   ```sql
   CREATE TABLE `country_staging2` (
     `Code` char(3) NOT NULL DEFAULT '',
@@ -77,8 +77,8 @@ This script demonstrates a systematic approach to remove duplicate rows from a t
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
   ```
 
-## 🚀 **Populating `country_staging2` with Data** 📊🔄
-- Data is inserted into `country_staging2`, along with the `row_num` for identifying duplicates. ✨  
+## 🚀 **Populating `country_staging2` with Data** 📊🔄🌍
+- Data is inserted into `country_staging2`, along with the `row_num` for identifying duplicates. ✨📋🌟
   ```sql
   INSERT INTO country_staging2
   SELECT *,
@@ -92,19 +92,19 @@ This script demonstrates a systematic approach to remove duplicate rows from a t
 
 ---
 
-## 🗑️ **Deleting Duplicate Rows** ❌🚫
-- Disable safe update mode to allow deletion without a primary key constraint: ⚙️
+## 🗑️ **Deleting Duplicate Rows** ❌🚫✨
+- Disable safe update mode to allow deletion without a primary key constraint: ⚙️🔧💡
   ```sql
   SET SQL_SAFE_UPDATES = 0;
   ```
-- Remove rows where `row_num > 1`, keeping only unique records: ✂️  
+- 🌟 Remove rows where `row_num > 1`, keeping only unique records: ✂️✨🚛
   ```sql
   DELETE
   FROM country_staging2
   WHERE row_num > 1;
   ```
 
-- Verify there are no duplicates: 🔎
+- 🔎 Verify there are no duplicates: 🕵️‍♂️📊✨
   ```sql
   SELECT *
   FROM country_staging2
@@ -113,17 +113,17 @@ This script demonstrates a systematic approach to remove duplicate rows from a t
 
 ---
 
-## 🎯 **Key Features** ✨💼
-- 🚀 **Efficient duplicate removal**: Uses `ROW_NUMBER()` for precise detection. 🌈
-- 🔄 **Scalable process**: Easy to adapt for other tables or datasets. 🌍
-- 🛠️ **Best practices**: Incorporates CTEs and staging tables for clarity and maintainability. 🌟
+## 🎯 **Key Features** ✨💼🌟
+- 🚀 **Efficient duplicate removal**: Uses `ROW_NUMBER()` for precise detection. 🌈✨
+- 🔄 **Scalable process**: Easy to adapt for other tables or datasets. 🌍📋
+- 🛠️ **Best practices**: Incorporates CTEs and staging tables for clarity and maintainability. 🌟🎯
 
 ---
 
-## 📝 **Note** 📌💡
-- Ensure `SQL_SAFE_UPDATES` is disabled during the deletion process to avoid errors. 🚫
-- Customize `PARTITION BY` columns based on the unique constraints of your dataset. 🛠️
+## 📝 **Note** 📌💡🌟
+- Ensure `SQL_SAFE_UPDATES` is disabled during the deletion process to avoid errors. 🚫⚠️
+- Customize `PARTITION BY` columns based on the unique constraints of your dataset. 🛠️✨
 
 ---
 
-✨ Enjoy a clean and duplicate-free dataset! ✨ 🚀🎉🌟
+🎉✨ Enjoy a clean and duplicate-free dataset! 🚀🎊🌟🎨
